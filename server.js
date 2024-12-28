@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const config = require("./config")
+const users = require("./users")
 
 app.use(express.static(__dirname + "/public"))
 
@@ -9,7 +10,21 @@ app.get('/', (req, res) => {
 })
 
 app.get('/user', (req, res) => {
-    res.send(`user`)
+    res.status(200).json({
+        data: users,
+        success: true
+    })
+})
+
+app.get('/user/:id', (req, res) => {
+    let user = users.find(user => {
+        if (user.id == req.params.id)
+            return user
+    })
+    res.status(200).json({
+        data: user,
+        success: true
+    })
 })
 
 app.listen(config.port, () => {
