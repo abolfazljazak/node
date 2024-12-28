@@ -4,7 +4,7 @@ const config = require("./config")
 const users = require("./users")
 
 app.use(express.static(__dirname + "/public"))
-
+app.use(express.urlencoded({extended: false}))
 app.get('/', (req, res) => {
     res.send(`hello ${req.query.username}`)
 })
@@ -25,6 +25,12 @@ app.get('/user/:id', (req, res) => {
         data: user,
         success: true
     })
+})
+
+app.post('/user', (req, res) => {
+    const user = req.body
+    user.id = parseInt(user.id)
+    users.push(user)
 })
 
 app.listen(config.port, () => {
