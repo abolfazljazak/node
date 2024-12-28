@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const config = require("./config");
 const users = require("./users");
+const {check, validationResult} = require('express-validator')
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: false }));
@@ -26,7 +27,13 @@ app.get("/user/:id", (req, res) => {
   });
 });
 
-app.post("/user", (req, res) => {
+app.post("/user", [check('email').isEmail(), check('password').isLength({min: 5})], (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+        errors: errors.array()
+    })
+  }
   const user = req.body;
   user.id = parseInt(user.id);
   users.push(user);
