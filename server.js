@@ -1,9 +1,17 @@
 const express = require("express")
 const app = express()
+const config = require("./config")
+
+app.use(express.static(__dirname + "/public"))
 
 app.get('/', (req, res) => {
-    res.send('hello node')
+    res.send(`hello ${req.query.username}`)
 })
-app.listen(3000, () => {
-    console.log('server is running on port 3000')
+
+app.get('/user', (req, res) => {
+    res.send(`user`)
+})
+
+app.listen(config.port, () => {
+    console.log(`server is running on port ${config.port}`)
 })
