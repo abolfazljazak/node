@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const users = require("../users");
+const users = require("./../users");
 const { check, validationResult } = require("express-validator");
 
-router.get("/user", (req, res) => {
+router.get("/", (req, res) => {
   res.status(200).json({
     data: users,
     success: true,
   });
 });
 
-router.get("/user/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   let user = users.find((user) => {
     if (user.id == req.params.id) return user;
   });
@@ -21,7 +21,7 @@ router.get("/user/:id", (req, res) => {
 });
 
 router.post(
-  "/user",
+  "/",
   [check("email").isEmail(), check("password").isLength({ min: 5 })],
   (req, res) => {
     const errors = validationResult(req);
@@ -40,7 +40,7 @@ router.post(
   }
 );
 
-router.put("/user/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   users = users.map((user) => {
     if (user.id == req.params.id) {
       return req.body;
@@ -54,7 +54,7 @@ router.put("/user/:id", (req, res) => {
   });
 });
 
-router.delete("/user/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   user = users.find((user) => {
     if (user.id !== req.params.id) {
     }
