@@ -4,10 +4,7 @@ const users = require("./../users");
 const { check, validationResult } = require("express-validator");
 
 router.get("/", (req, res) => {
-  res.status(200).json({
-    data: users,
-    success: true,
-  });
+  res.render('users', {users})
 });
 
 router.get("/:id", (req, res) => {
